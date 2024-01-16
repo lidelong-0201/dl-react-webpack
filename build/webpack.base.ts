@@ -45,8 +45,9 @@ const baseConfig: Configuration = {
   module: {
     rules: [
       {
-        test: /.(ts|tsx)$/, // 匹配.ts,tsx,js,jsx文件
-        use: 'babel-loader'
+        test: /.(ts|tsx)$/, // 匹配.ts,tsx文件
+        exclude: /node_modules/,
+        use: ['thread-loader', 'babel-loader']
       },
       {
         test: cssRegex, //匹配 css 文件
