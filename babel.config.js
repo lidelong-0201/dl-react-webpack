@@ -1,4 +1,4 @@
-const { isDEV } = require('./build/util/env');
+const { isDEV } = require('./build/util/env')
 
 module.exports = {
   // 执行顺序由右往左,所以先处理ts,再处理jsx,最后再试一下babel转换为低版本语法
@@ -21,4 +21,4 @@ module.exports = {
   plugins: [
     isDEV && require.resolve('react-refresh/babel') // 如果是开发模式,就启动react热更新插件
   ].filter(Boolean) // 过滤空值
-};
+}

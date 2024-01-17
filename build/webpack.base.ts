@@ -1,17 +1,19 @@
-import { Configuration } from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { DefinePlugin } from 'webpack';
-import WebpackBar from 'webpackbar';
-import * as dotenv from 'dotenv';
-const path = require('path');
+import { Configuration, DefinePlugin } from 'webpack'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import WebpackBar from 'webpackbar'
+import * as dotenv from 'dotenv'
 
-const cssRegex = /\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const lessRegex = /\.less$/;
-const stylRegex = /\.styl$/;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const path = require('path')
+const { isDEV } = require('./util/env')
+
+const cssRegex = /\.css$/
+const sassRegex = /\.(scss|sass)$/
+const lessRegex = /\.less$/
+const stylRegex = /\.styl$/
 
 const styleLoadersArray = [
-  'style-loader',
+  isDEV ? 'style-loader' : MiniCssExtractPlugin.loader, // 开发环境使用style-looader,打包模式抽离css
   {
     loader: 'css-loader',
     options: {
@@ -22,12 +24,12 @@ const styleLoadersArray = [
   },
   // 添加 postcss-loader
   'postcss-loader'
-];
+]
 
 // 加载环境文件
 const envConfig = dotenv.config({
-  path: path.resolve(__dirname, '../env/.env.' + process.env.BASE_ENV)
-});
+  path: path.resolve(__dirname, `../env/.env.${process.env.BASE_ENV}`)
+})
 
 const baseConfig: Configuration = {
   stats: { errorDetails: true }, // 打印详情
@@ -50,7 +52,7 @@ const baseConfig: Configuration = {
         use: ['thread-loader', 'babel-loader']
       },
       {
-        test: cssRegex, //匹配 css 文件
+        test: cssRegex, // 匹配 css 文件
         use: styleLoadersArray
       },
       {
@@ -111,7 +113,7 @@ const baseConfig: Configuration = {
       // 压缩html资源
       minify: {
         removeAttributeQuotes: true,
-        collapseWhitespace: true, //去空格
+        collapseWhitespace: true, // 去空格
         removeComments: true, // 去注释
         minifyJS: true, // 在脚本元素和事件属性中缩小JavaScript(使用UglifyJS)
         minifyCSS: true // 缩小CSS样式元素和样式属性
@@ -129,6 +131,6 @@ const baseConfig: Configuration = {
       profile: false // 默认false，启用探查器。
     })
   ].filter(Boolean)
-};
+}
 
-export default baseConfig;
+export default baseConfig

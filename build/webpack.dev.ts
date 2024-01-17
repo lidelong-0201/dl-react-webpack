@@ -1,21 +1,23 @@
-import path from 'path';
-import { merge } from 'webpack-merge';
-import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
-import baseConfig from './webpack.base';
-import WebpackDevServer from 'webpack-dev-server';
-import webpack, { Configuration as WebpackConfiguration } from 'webpack';
-import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
+import path from 'path'
+import { merge } from 'webpack-merge'
+import WebpackDevServer, {
+  Configuration as WebpackDevServerConfiguration
+} from 'webpack-dev-server'
+import webpack, { Configuration as WebpackConfiguration } from 'webpack'
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin'
+import baseConfig from './webpack.base'
+
 interface Configuration extends WebpackConfiguration {
-  devServer?: WebpackDevServerConfiguration;
+  devServer?: WebpackDevServerConfiguration
 }
 // 运行命令的时候重启一次打开一个tab 页很烦，所以呢优化一下
 // 参考：create-react-app 的启动方式
 // https://github.com/facebook/create-react-app/blob/main/packages/react-dev-utils/openChrome.applescript
 // 记得关闭webpack-dev-server的配置中的自动打开 open: false 或者注释
-const openBrowser = require('./util/openBrowser');
+const openBrowser = require('./util/openBrowser')
 
-const host = '127.0.0.1';
-const port = '8000';
+const host = '127.0.0.1'
+const port = '8000'
 
 // 合并公共配置,并添加开发环境配置
 const devConfig: Configuration = merge(baseConfig, {
@@ -24,7 +26,7 @@ const devConfig: Configuration = merge(baseConfig, {
   plugins: [
     new ReactRefreshWebpackPlugin() // 添加热更新插件
   ]
-});
+})
 
 const devServer = new WebpackDevServer(
   {
@@ -41,11 +43,11 @@ const devServer = new WebpackDevServer(
     headers: { 'Access-Control-Allow-Origin': '*' }
   },
   webpack(devConfig)
-);
+)
 
 devServer.start().then(() => {
   // 启动界面
-  openBrowser(`http://${host}:${port}`);
-});
+  openBrowser(`http://${host}:${port}`)
+})
 
-export default devConfig;
+export default devConfig
