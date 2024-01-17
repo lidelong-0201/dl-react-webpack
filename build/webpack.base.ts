@@ -103,7 +103,7 @@ const baseConfig: Configuration = {
   // plugins
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'dl-cli-react-webpack-ts',
+      title: 'dl-react-webpack',
       filename: 'index.html',
       // 复制 'index.html' 文件，并自动引入打包输出的所有资源（js/css）
       template: path.join(__dirname, '../public/index.html'),
